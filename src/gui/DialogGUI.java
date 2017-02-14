@@ -48,7 +48,7 @@ public class DialogGUI extends GameGUI
 	    }   
 	}
 	
-	public void repaintDialog(Collection<Choice> choices){
+	public void repaintDialog(Collection<Choice> choices, String description){
 		int i = 0;
 		for(Choice choice : choices){
 			this.optionsButtons[i].setBackground(Color.gray.brighter());
@@ -60,6 +60,27 @@ public class DialogGUI extends GameGUI
 		for(; i < this.optionsButtons.length; i++){
 			this.optionsButtons[i].setVisible(false);
 		}
+		
+		this.textArea.setText(description);
+	}
+	
+	public void repaintDialogForBattle(Collection<Choice> choices, String description, int currentPlayer){
+		int i = 0;
+		for(Choice choice : choices){
+			if(choice.getNumber() < 3 * currentPlayer || choice.getNumber() >= 3 * (currentPlayer+1))
+				break;
+			
+			this.optionsButtons[i].setBackground(Color.gray.brighter());
+			this.optionsButtons[i].setVisible(true);
+			this.optionsButtons[i].setText(choice.getDescription());
+			i++;
+		}
+		
+		for(; i < this.optionsButtons.length; i++){
+			this.optionsButtons[i].setVisible(false);
+		}
+		
+		this.textArea.setText(description);
 	}
 	
 	private void repaint(Book book)

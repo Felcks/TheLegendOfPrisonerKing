@@ -5,7 +5,7 @@ public abstract class Enemy extends Character {
 	private EnemyType enemyType;
 	
     public Enemy(int level, EnemyType enemyType){
-    	super(level, enemyType.toString());
+    	super(level, enemyType.getName());
     	this.enemyType = enemyType;
     }
     

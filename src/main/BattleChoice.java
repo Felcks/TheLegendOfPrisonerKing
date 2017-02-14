@@ -11,6 +11,5 @@ public class BattleChoice extends Choice
 {
     public BattleChoice(String description, int eventIndex) {
         super(description, eventIndex);
-
     }
 }

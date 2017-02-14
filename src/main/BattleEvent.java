@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Random;
 
+import javax.swing.plaf.synth.SynthScrollBarUI;
+
 import characters.Character;
 import characters.Enemy;
 import characters.Goblin;
@@ -11,22 +13,21 @@ import characters.Player;
 
 public class BattleEvent extends Event 
 {
-	private int currentPlayer = 0;
 	private Enemy[] enemies;
+	private Player[] players;
 	private int lengthOfDescription = 0;
+	private int currentPlayer = 0;
 	
-	public BattleEvent(String description, Collection<Choice> choice, Enemy[] characters)
+	public BattleEvent(String description, Collection<Choice> choice, Player[] players, Enemy[] enemies)
 	{
 		super(description, choice, GameStatus.BATTLE);
-		this.addDescription("Inimigos:");
-		for(int i = 0; i < characters.length; i++){
-			this.addDescription(characters[i].getName() + " Hp: " + characters[i].getHp());
-		}
-		this.enemies = characters;
+		this.enemies = enemies;
+		this.players = players;
 		
-		Choice a = new BlankChoice("", 0);
+		//Pq isso estava aqui!?
+		/*Choice a = new BlankChoice("", 0);
 		for(Choice c:choice)
-			a = c;
+			a = c;*/
 		
 		Choice endOfBattleChoices = new BlankChoice("Continuar", 0);
 		endOfBattleChoices.defineNumber(this.choices.size());
@@ -37,6 +38,22 @@ public class BattleEvent extends Event
 		this.choices.add(endOfBattleChoices);
 		this.choices.add(endOfBattleChoices1);
 		this.choices.add(endOfBattleChoices2);
+		
+		this.writeStartDescription();
+		this.writeTurnDescription();
+	}
+	
+	private void writeStartDescription(){
+		this.addDescription("!----------------------BATALHA----------------------!");
+		this.addDescription("Inimigo(s):");
+		for(int i = 0; i < enemies.length; i++){
+			this.addDescription(i+1 + ". " + enemies[i].getName() + " Hp: " + enemies[i].getHp());
+		}
+		
+	}
+	
+	private void writeTurnDescription(){
+		this.addDescription(this.players[this.currentPlayer].getName() + " Turno");
 	}
 	
 	public void nextPlayer()
@@ -51,8 +68,8 @@ public class BattleEvent extends Event
 	}
 	
 	@Override
-	public int executeChoice(int number){
-		return -1;
+	public int executeChoice(int index){
+		return this.battle(index);
 		/*System.out.println(choice.getDescription());
 		if(choice.getDescription().equals("Continuar")){
 			this.currentPlayer = 0;
@@ -66,7 +83,10 @@ public class BattleEvent extends Event
 	}
 
 	
-	public void battle(int index){
+	public int battle(int index){
+		Player player = this.players[this.currentPlayer];
+		player.attack(index, this.enemies);
+		this.addDescription(player.getName() + " usou " + player.getSkillsNames()[index]);
 		/*Player player = Book.getInstance().getPlayers()[currentPlayer];
 		player.attack(index, this.enemies);
 		this.addDescription(player.getName() + " usou " + player.getSkillsNames()[index%3] ); 
@@ -92,6 +112,8 @@ public class BattleEvent extends Event
 		}
 			
 		this.nextPlayer();*/
+		
+		return -1;
 	}
 	@Override
 	public void addDescription(String description){
@@ -101,7 +123,8 @@ public class BattleEvent extends Event
 	}
 	
 	private void moveDescription(){
-		if(this.lengthOfDescription >= 6){
+		System.out.println(this.lengthOfDescription);
+		if(this.lengthOfDescription >= 5){
 			for(int i = 0; i < this.getDescription().length(); i++){
 				if(this.getDescription().charAt(i) == '\n'){
 					this.lengthOfDescription--;

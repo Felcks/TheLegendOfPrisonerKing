@@ -18,6 +18,8 @@ public class GameManager
 	private GUIManager guiManager;
 	private DialogButtonListener[] dialogButtonListeners;
 	
+	private int currentPlayer = 0;
+	
 	public GameManager(){
 		this.guiManager = new GUIManager();
 		this.gameStatus = gameStatus.DIALOG;
@@ -42,6 +44,7 @@ public class GameManager
 	public void setGameStatus(GameStatus gameStatus){
 		this.gameStatus = gameStatus;
 	}
+	
 	public GameStatus getGameStatus(){
 		return this.gameStatus;
 	}
@@ -62,23 +65,39 @@ public class GameManager
 		return this.playersCreation.getPlayers();
 	}
 	
+	private void nextPlayer(){
+		currentPlayer++;
+		//if(currentPlayer >= this.getPlayersAlive().length)
+			//currentPlayer = 0;
+	}
+	
 	public GUIManager getGUIManager(){
 		return this.guiManager;
 	}
 	
 	private void repaintDialog(){
-		this.guiManager.getGameScreen().repaintDialog(events[this.book.getEventActually()].choices);
+		this.guiManager.getGameScreen().getDialogGUI().repaintDialog(this.getCurrentEvent().choices, this.getCurrentEvent().getDescription());
+	}
+	
+	private void repaintDialogForBattle(){
+		this.guiManager.getGameScreen().getDialogGUI().repaintDialogForBattle(this.getCurrentEvent().choices, 
+														this.getCurrentEvent().getDescription(), this.currentPlayer);
 	}
 	
 	private void setDialogListeners(){
-		this.guiManager.getGameScreen().setDialogButtonListener(this.dialogButtonListeners);
+		this.guiManager.getGameScreen().getDialogGUI().setDialogButtonListener(this.dialogButtonListeners);
 	}
 	
 	public void dialogButtonClicked(int index){
 		int nextEvent = this.getCurrentEvent().executeChoice(index);
 		if(nextEvent != this.book.getEventActually() && nextEvent >= 0){
 			this.book.setEventActually(nextEvent);
-			this.repaintDialog();
+			if(this.getCurrentEvent() instanceof BlankEvent)
+				this.repaintDialog();
+			else{
+				this.repaintDialogForBattle();
+				this.nextPlayer();
+			}
 		}
 	}
 }

@@ -2,16 +2,22 @@ package characters;
 
 public enum EnemyType {
 	
-	GOBLIN(0);
+	GOBLIN(0, "Goblin");
 	
 	private int index;
+	private String name;
 	
-	EnemyType(int index){
+	EnemyType(int index, String name){
 		this.index = index;
+		this.name = name;
 	}
 	
 	public int getIndex(){
 		return this.index;
+	}
+	
+	public String getName(){
+		return this.name;
 	}
 
 }

@@ -17,7 +17,7 @@ public class PlayerCreation {
 	public void createPlayers()
 	{
 		this.amountOfPlayers = 4;
-		this.names = new String[]{ "RYU", "VIVI", "STEINER", "FREYA"};
+		this.names = new String[]{ "Ryu", "Vivi", "Steiner", "Freya"};
 		
 		this.players = new Player[amountOfPlayers];
 		

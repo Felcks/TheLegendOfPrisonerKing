@@ -45,12 +45,8 @@ public class GameScreen extends DefaultScreen
         this.characterStatsGUI.draw(g2d);
 	}
 	
-	public void repaintDialog(Collection<Choice> choices){
-		this.dialogGUI.repaintDialog(choices);
-	}
-	
-	public void setDialogButtonListener(DialogButtonListener[] dbls){
-		this.dialogGUI.setDialogButtonListener(dbls);
+	public DialogGUI getDialogGUI(){
+		return this.dialogGUI;
 	}
 
 	

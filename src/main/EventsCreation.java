@@ -67,6 +67,8 @@ public class EventsCreation
 	
 	private void createEventBattle(Player[] players)
 	{
+		Enemy[] enemies =  new Enemy[]{ new Goblin(0) };
+		
 		Collection choices = new ArrayList<Choice>();
 		for(int i = 0; i < players.length; i++){
 			Player player = players[i];
@@ -74,7 +76,11 @@ public class EventsCreation
 				choices.add(new BlankChoice(player.getSkillsNames()[j], j));
 			}
 		}
+		
+		for(int i = 0; i < enemies.length; i++){
+			choices.add(new BlankChoice("Continuar", 0));
+		}
         
-        this.allEvents[2] = new BattleEvent("Evento Batalha. O que quer fazer?", choices, new Enemy[]{ new Goblin(0) } );
+        this.allEvents[2] = new BattleEvent("aa", choices, players,  enemies);
 	}
 }
