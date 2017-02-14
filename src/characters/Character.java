@@ -1,7 +1,7 @@
 package characters;
 
 public abstract class Character {
-	//iugdbidyhbgkfdsj
+	//comentario do luis
 	protected int attack, defense;
 	protected int hp, maxHp;
 	protected String name;
