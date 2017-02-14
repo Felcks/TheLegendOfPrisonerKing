@@ -48,6 +48,10 @@ public class GameScreen extends DefaultScreen
 	public DialogGUI getDialogGUI(){
 		return this.dialogGUI;
 	}
+	
+	public InventoryGUI getInventoryGUI(){
+		return this.inventoryGUI;
+	}
 
 	
 }

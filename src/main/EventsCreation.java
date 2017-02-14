@@ -6,6 +6,7 @@ import java.util.Collection;
 import characters.Enemy;
 import characters.Goblin;
 import characters.Player;
+import itens.ItemType;
 import main.BattleEvent;
 import main.BlankChoice;
 import main.BlankEvent;
@@ -19,7 +20,7 @@ public class EventsCreation
 	
 	public EventsCreation(Player[] players)
 	{
-		this.allEvents = new Event[3];
+		this.allEvents = new Event[4];
 		this.createAllEvents(players);
 	}
 	
@@ -27,6 +28,7 @@ public class EventsCreation
 		createStartEvent();
 		createEventTwo();
 		createEventBattle(players);
+		this.createEventThree();
 	}
 	
 	public Event[] getAllEvents(){
@@ -42,7 +44,7 @@ public class EventsCreation
 		Collection choices = new ArrayList<Choice>();
         Choice choiceOne = new BlankChoice("Sair do quarto", 1);
         Choice choiceTwo = new BlankChoice("Ir ao evento dois", 1);
-        Choice choiceThree = new BlankChoice("Bater a cabeça na parede", 0);
+        Choice choiceThree = new BlankChoice("procurar por itens", 3);
         Choice choiceFour = new BlankChoice("Batalhar com um goblin randômico", 2);
         
         choices.add(choiceOne);
@@ -65,6 +67,17 @@ public class EventsCreation
         this.allEvents[1] = new BlankEvent("Event dois. O que quer fazer?", choices);
 	}
 	
+	private void createEventThree()
+	{
+		Collection choices = new ArrayList<Choice>();
+        Choice choiceOne = new ItemChoice("Pegar "+ ItemType.KEY.getName(), 0);
+        Choice choiceTwo = new BlankChoice("Voltar a atenção pro quarto", 0);
+        
+        choices.add(choiceTwo);
+        choices.add(choiceOne);
+        
+        this.allEvents[3] = new ItemEvent("Procurar por itens", choices, ItemType.KEY);
+	}
 	private void createEventBattle(Player[] players)
 	{
 		Enemy[] enemies =  new Enemy[]{ new Goblin(0) };

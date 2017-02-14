@@ -2,15 +2,22 @@ package itens;
 
 public enum ItemType 
 {
-	BOOK(0), ROPE(1), AXE(2), KEY(3), POTION(4), CANDLE(5), MAGNIFYING_GLASS(6), FIREWOOD(7), BINOCULARS(8),  MAP(9);
+	BOOK(0, "Livro"), ROPE(1, "Corda"), AXE(2, "Machado"), KEY(3, "Chave"), POTION(4, "Poção"), CANDLE(5, "Vela"), 
+	MAGNIFYING_GLASS(6, "Lupa"), FIREWOOD(7, "Lenha"), BINOCULARS(8, "Binóculos"),  MAP(9, "Mapa");
 	
 	private int index;
+	private String name;
 	
-	ItemType(int index){
+	ItemType(int index, String name){
 		this.index = index;
+		this.name = name;
 	}
 	
 	public int getIndex(){
 		return this.index;
+	}
+	
+	public String getName(){
+		return this.name;
 	}
 }

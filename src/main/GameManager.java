@@ -3,6 +3,7 @@ package main;
 import characters.Player;
 import characters.PlayerCreation;
 import gui.GUIManager;
+import itens.ItemType;
 import utilities.DialogButtonListener;
 
 public class GameManager 
@@ -80,6 +81,10 @@ public class GameManager
 														this.getCurrentEvent().getDescription(), currentPlayer);
 	}
 	
+	private void repaintInventory(ItemType itemType){
+		this.guiManager.getGameScreen().getInventoryGUI().repaintInventory(itemType);
+	}
+	
 	private void setDialogListeners(){
 		this.guiManager.getGameScreen().getDialogGUI().setDialogButtonListener(this.dialogButtonListeners);
 	}
@@ -94,8 +99,13 @@ public class GameManager
 				this.repaintDialogForBattle();
 		}
 		else{
-			
-			this.repaintDialogForBattle();
+			if(this.getCurrentEvent() instanceof BattleEvent)
+				this.repaintDialogForBattle();
+			else{
+				this.repaintInventory(((ItemEvent)this.getCurrentEvent()).item);
+				((ItemEvent) this.getCurrentEvent()).SetNullDescription();
+				this.repaintDialog();
+			}
 		}
 	}
 }
