@@ -67,13 +67,12 @@ public class DialogGUI extends GameGUI
 	public void repaintDialogForBattle(Collection<Choice> choices, String description, int currentPlayer){
 		int i = 0;
 		for(Choice choice : choices){
-			if(choice.getNumber() < 3 * currentPlayer || choice.getNumber() >= 3 * (currentPlayer+1))
-				break;
-			
-			this.optionsButtons[i].setBackground(Color.gray.brighter());
-			this.optionsButtons[i].setVisible(true);
-			this.optionsButtons[i].setText(choice.getDescription());
-			i++;
+			if(choice.getNumber() >= 3 * currentPlayer && choice.getNumber() < 3 * (currentPlayer+1)){
+				this.optionsButtons[i].setBackground(Color.gray.brighter());
+				this.optionsButtons[i].setVisible(true);
+				this.optionsButtons[i].setText(choice.getDescription());
+				i++;
+			}
 		}
 		
 		for(; i < this.optionsButtons.length; i++){

@@ -16,7 +16,8 @@ public class BattleEvent extends Event
 	private Enemy[] enemies;
 	private Player[] players;
 	private int lengthOfDescription = 0;
-	private int currentPlayer = 0;
+	private int currentAttacker = 0;
+	private int currentPlayerAttacker = 0;
 	
 	public BattleEvent(String description, Collection<Choice> choice, Player[] players, Enemy[] enemies)
 	{
@@ -29,11 +30,11 @@ public class BattleEvent extends Event
 		for(Choice c:choice)
 			a = c;*/
 		
-		Choice endOfBattleChoices = new BlankChoice("Continuar", 0);
+		Choice endOfBattleChoices = new BlankChoice("Finalizar", 0);
 		endOfBattleChoices.defineNumber(this.choices.size());
-		Choice endOfBattleChoices1 = new BlankChoice("Continuar",0);
+		Choice endOfBattleChoices1 = new BlankChoice("Finalizar",0);
 		endOfBattleChoices1.defineNumber(this.choices.size());
-		Choice endOfBattleChoices2 = new BlankChoice("Continuar", 0);
+		Choice endOfBattleChoices2 = new BlankChoice("Finalizar", 0);
 		endOfBattleChoices2.defineNumber(this.choices.size());
 		this.choices.add(endOfBattleChoices);
 		this.choices.add(endOfBattleChoices1);
@@ -45,26 +46,38 @@ public class BattleEvent extends Event
 	
 	private void writeStartDescription(){
 		this.addDescription("!----------------------BATALHA----------------------!");
-		this.addDescription("Inimigo(s):");
+		this.addDescription("Inimigo(s): ");
 		for(int i = 0; i < enemies.length; i++){
-			this.addDescription(i+1 + ". " + enemies[i].getName() + " Hp: " + enemies[i].getHp());
+			this.addDescription(enemies[i].getName() + " Hp:" + enemies[i].getHp() + "  ");
 		}
 		
 	}
 	
 	private void writeTurnDescription(){
-		this.addDescription(this.players[this.currentPlayer].getName() + " Turno");
+		if(this.currentAttacker < this.players.length)
+			this.addDescription(this.players[this.currentAttacker].getName() + " Turno: ");
+		else
+			this.addDescription(this.enemies[this.currentAttacker - this.players.length].getName() + " Turno: ");
 	}
 	
-	public void nextPlayer()
+	public void nextAttacker()
 	{
-		/*currentPlayer++;
-		if(currentPlayer > Book.getInstance().getAllEvents().length)
-			currentPlayer = 0;*/
-	}
-	
-	public int getCurrentPlayer(){
-		return currentPlayer;
+		Random random = new Random();
+		int sortedAttacker = random.nextInt(4);
+		if(sortedAttacker <= 2){
+			if(currentPlayerAttacker < this.players.length - 1){
+				this.currentPlayerAttacker += 1;
+			}
+			else{
+				this.currentPlayerAttacker = 0;
+			}
+
+			this.currentAttacker = this.currentPlayerAttacker;
+		}
+		else{
+			//Primeigo goblin só pra teste
+			this.currentAttacker = this.players.length;
+		}
 	}
 	
 	@Override
@@ -84,9 +97,30 @@ public class BattleEvent extends Event
 
 	
 	public int battle(int index){
-		Player player = this.players[this.currentPlayer];
-		player.attack(index, this.enemies);
-		this.addDescription(player.getName() + " usou " + player.getSkillsNames()[index]);
+		if(this.currentAttacker < this.players.length){
+			Player player = this.players[this.currentAttacker];
+			player.attack(index, this.enemies);
+			this.addDescriptionNoSpace("usou " + player.getSkillsNames()[index]);
+			if(index == 0 || index == 1){
+				this.addDescription(enemies[0].getName() + " Hp:" + enemies[0].getHp() + "  ");
+			}
+			else{
+				for(int i = 0; i < this.enemies.length; i++){
+					this.addDescription(enemies[i].getName() + " Hp:" + enemies[i].getHp() + "  ");
+				}
+			}
+		}
+		else{
+			int eIndex = this.currentAttacker - this.players.length;
+			Enemy enemy = this.enemies[eIndex];
+			enemy.attack(this.players[0]);
+			this.addDescriptionNoSpace("atacou " + this.players[0].getName());
+		}
+		
+		
+		this.nextAttacker();
+		this.writeTurnDescription();
+		
 		/*Player player = Book.getInstance().getPlayers()[currentPlayer];
 		player.attack(index, this.enemies);
 		this.addDescription(player.getName() + " usou " + player.getSkillsNames()[index%3] ); 
@@ -123,7 +157,6 @@ public class BattleEvent extends Event
 	}
 	
 	private void moveDescription(){
-		System.out.println(this.lengthOfDescription);
 		if(this.lengthOfDescription >= 5){
 			for(int i = 0; i < this.getDescription().length(); i++){
 				if(this.getDescription().charAt(i) == '\n'){
@@ -133,6 +166,10 @@ public class BattleEvent extends Event
 				}
 			}
 		}
+	}
+	
+	public int getCurrentAttacker(){
+		return this.currentAttacker;
 	}
 
 }

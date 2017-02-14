@@ -18,8 +18,6 @@ public class GameManager
 	private GUIManager guiManager;
 	private DialogButtonListener[] dialogButtonListeners;
 	
-	private int currentPlayer = 0;
-	
 	public GameManager(){
 		this.guiManager = new GUIManager();
 		this.gameStatus = gameStatus.DIALOG;
@@ -65,12 +63,6 @@ public class GameManager
 		return this.playersCreation.getPlayers();
 	}
 	
-	private void nextPlayer(){
-		currentPlayer++;
-		//if(currentPlayer >= this.getPlayersAlive().length)
-			//currentPlayer = 0;
-	}
-	
 	public GUIManager getGUIManager(){
 		return this.guiManager;
 	}
@@ -80,8 +72,12 @@ public class GameManager
 	}
 	
 	private void repaintDialogForBattle(){
+		int currentPlayer = 0;
+		if(this.getCurrentEvent() instanceof BattleEvent)
+			currentPlayer = ((BattleEvent)this.getCurrentEvent()).getCurrentAttacker();
+		
 		this.guiManager.getGameScreen().getDialogGUI().repaintDialogForBattle(this.getCurrentEvent().choices, 
-														this.getCurrentEvent().getDescription(), this.currentPlayer);
+														this.getCurrentEvent().getDescription(), currentPlayer);
 	}
 	
 	private void setDialogListeners(){
@@ -90,14 +86,16 @@ public class GameManager
 	
 	public void dialogButtonClicked(int index){
 		int nextEvent = this.getCurrentEvent().executeChoice(index);
-		if(nextEvent != this.book.getEventActually() && nextEvent >= 0){
+		if(nextEvent >= 0){
 			this.book.setEventActually(nextEvent);
 			if(this.getCurrentEvent() instanceof BlankEvent)
 				this.repaintDialog();
-			else{
+			else
 				this.repaintDialogForBattle();
-				this.nextPlayer();
-			}
+		}
+		else{
+			
+			this.repaintDialogForBattle();
 		}
 	}
 }

@@ -79,8 +79,10 @@ public class EventsCreation
 		
 		for(int i = 0; i < enemies.length; i++){
 			choices.add(new BlankChoice("Continuar", 0));
+			choices.add(new BlankChoice("Continuar", 0));
+			choices.add(new BlankChoice("Continuar", 0));
 		}
         
-        this.allEvents[2] = new BattleEvent("aa", choices, players,  enemies);
+        this.allEvents[2] = new BattleEvent("", choices, players,  enemies);
 	}
 }

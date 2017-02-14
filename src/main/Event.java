@@ -51,7 +51,11 @@ public abstract class Event
     }
     
     public void addDescription(String description){
-    	this.description= this.description.concat("\n" + description);
+    	this.description = this.description.concat("\n" + description);
+    }
+    
+    public void addDescriptionNoSpace(String description){
+    	this.description = this.description.concat(description);
     }
     
     protected String getDescription(){
