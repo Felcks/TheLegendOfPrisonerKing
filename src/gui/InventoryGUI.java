@@ -16,6 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import itens.Item;
 import itens.ItemType;
 import main.Book;
 
@@ -65,12 +66,10 @@ public class InventoryGUI extends GameGUI
 		
 	}
 	
-	public void repaintInventory(ItemType item){
-		System.out.println("aaaa");
+	public void repaintInventory(Item[] itens){
 		for(int i = 0; i < this.inventoryButtons.length; i++){
-			if(this.inventoryButtons[i].getIcon() == null){
-				this.inventoryButtons[i].setIcon(AllImages.getInstance().getItensImage(item));
-				break;
+			if(itens[i] != null){
+				this.inventoryButtons[i].setIcon(itens[i].getIcon());
 			}
 		}
 	}

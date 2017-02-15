@@ -5,6 +5,7 @@ import characters.PlayerCreation;
 import gui.GUIManager;
 import itens.ItemType;
 import utilities.DialogButtonListener;
+import itens.Inventory;
 
 public class GameManager 
 {
@@ -14,6 +15,7 @@ public class GameManager
 	
 	private Player[] players;
 	private Event[] events;
+	private Inventory inventory;
 	private Book book;
 	
 	private GUIManager guiManager;
@@ -29,6 +31,8 @@ public class GameManager
 		this.eventsCreation = new EventsCreation(this.players);
 		this.events = eventsCreation.getAllEvents();
 		
+		this.inventory = new Inventory();
+		
 		this.book = new Book();
 		this.book.resetHistory();
 		
@@ -38,6 +42,7 @@ public class GameManager
 			this.dialogButtonListeners[i] = new DialogButtonListener(this, i);
 		
 		this.setDialogListeners();
+		this.startCharactersStatsGUI();
 	}
 	
 	public void setGameStatus(GameStatus gameStatus){
@@ -68,6 +73,14 @@ public class GameManager
 		return this.guiManager;
 	}
 	
+	private void repaintCharactersStats(){
+		this.guiManager.getGameScreen().getCharacterStatsGUI().repaintCharacterStats(this.players);
+	}
+	
+	private void startCharactersStatsGUI(){
+		this.guiManager.getGameScreen().getCharacterStatsGUI().start(this.players);
+	}
+	
 	private void repaintDialog(){
 		this.guiManager.getGameScreen().getDialogGUI().repaintDialog(this.getCurrentEvent().choices, this.getCurrentEvent().getDescription());
 	}
@@ -81,8 +94,8 @@ public class GameManager
 														this.getCurrentEvent().getDescription(), currentPlayer);
 	}
 	
-	private void repaintInventory(ItemType itemType){
-		this.guiManager.getGameScreen().getInventoryGUI().repaintInventory(itemType);
+	private void repaintInventory(){
+		this.guiManager.getGameScreen().getInventoryGUI().repaintInventory(inventory.getItens());
 	}
 	
 	private void setDialogListeners(){
@@ -91,21 +104,33 @@ public class GameManager
 	
 	public void dialogButtonClicked(int index){
 		int nextEvent = this.getCurrentEvent().executeChoice(index);
-		if(nextEvent >= 0){
+		if(this.getCurrentEvent() instanceof BlankEvent){
 			this.book.setEventActually(nextEvent);
-			if(this.getCurrentEvent() instanceof BlankEvent)
-				this.repaintDialog();
-			else
-				this.repaintDialogForBattle();
 		}
-		else{
-			if(this.getCurrentEvent() instanceof BattleEvent)
-				this.repaintDialogForBattle();
+		else if(this.getCurrentEvent() instanceof BattleEvent){
+			if(nextEvent >= 0){
+				this.book.setEventActually(nextEvent);
+			}
+			else
+				this.repaintCharactersStats();
+		}
+		else if(this.getCurrentEvent() instanceof ItemEvent){
+			ItemEvent itemEvent = (ItemEvent)this.getCurrentEvent();
+			if(index == 0){
+				this.book.setEventActually(nextEvent);
+			}
 			else{
-				this.repaintInventory(((ItemEvent)this.getCurrentEvent()).item);
+				this.inventory.addItem(nextEvent);
+				this.repaintInventory();
 				((ItemEvent) this.getCurrentEvent()).SetNullDescription();
-				this.repaintDialog();
 			}
 		}
+		
+		if(this.getCurrentEvent() instanceof BlankEvent || this.getCurrentEvent() instanceof ItemEvent){
+			repaintDialog();
+		}
+		else if(this.getCurrentEvent() instanceof BattleEvent)
+			repaintDialogForBattle();
+		
 	}
 }

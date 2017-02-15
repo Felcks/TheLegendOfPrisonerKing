@@ -6,11 +6,10 @@ import java.util.Collection;
 import characters.Enemy;
 import characters.Goblin;
 import characters.Player;
-import itens.ItemType;
+import itens.*;
 import main.BattleEvent;
 import main.BlankChoice;
 import main.BlankEvent;
-import main.Book;
 import main.Choice;
 import main.Event;
 
@@ -70,13 +69,13 @@ public class EventsCreation
 	private void createEventThree()
 	{
 		Collection choices = new ArrayList<Choice>();
-        Choice choiceOne = new ItemChoice("Pegar "+ ItemType.KEY.getName(), 0);
+        Choice choiceOne = new ItemChoice("Pegar "+ ItemType.KEY.getName(), 0, ItemType.KEY);
         Choice choiceTwo = new BlankChoice("Voltar a atenção pro quarto", 0);
         
         choices.add(choiceTwo);
         choices.add(choiceOne);
         
-        this.allEvents[3] = new ItemEvent("Procurar por itens", choices, ItemType.KEY);
+        this.allEvents[3] = new ItemEvent("Procurar por itens", choices);
 	}
 	private void createEventBattle(Player[] players)
 	{

@@ -19,6 +19,9 @@ public class BattleEvent extends Event
 	private int currentAttacker = 0;
 	private int currentPlayerAttacker = 0;
 	
+	private static final String BATTLEOVER_DESCRIPTION = "Uma grande batalha já foi travada neste local!";
+	private Boolean battleOver = false;
+	
 	public BattleEvent(String description, Collection<Choice> choice, Player[] players, Enemy[] enemies)
 	{
 		super(description, choice, GameStatus.BATTLE);
@@ -30,11 +33,11 @@ public class BattleEvent extends Event
 		for(Choice c:choice)
 			a = c;*/
 		
-		Choice endOfBattleChoices = new BlankChoice("Finalizar", 0);
+		Choice endOfBattleChoices = new BlankChoice("Voltar", 0);
 		endOfBattleChoices.defineNumber(this.choices.size());
-		Choice endOfBattleChoices1 = new BlankChoice("Finalizar",0);
+		Choice endOfBattleChoices1 = new BlankChoice("Voltar",0);
 		endOfBattleChoices1.defineNumber(this.choices.size());
-		Choice endOfBattleChoices2 = new BlankChoice("Finalizar", 0);
+		Choice endOfBattleChoices2 = new BlankChoice("Voltar", 0);
 		endOfBattleChoices2.defineNumber(this.choices.size());
 		this.choices.add(endOfBattleChoices);
 		this.choices.add(endOfBattleChoices1);
@@ -64,7 +67,7 @@ public class BattleEvent extends Event
 	{
 		Random random = new Random();
 		int sortedAttacker = random.nextInt(4);
-		if(sortedAttacker <= 2){
+		if(sortedAttacker <= 0){
 			if(currentPlayerAttacker < this.players.length - 1){
 				this.currentPlayerAttacker += 1;
 			}
@@ -83,16 +86,6 @@ public class BattleEvent extends Event
 	@Override
 	public int executeChoice(int index){
 		return this.battle(index);
-		/*System.out.println(choice.getDescription());
-		if(choice.getDescription().equals("Continuar")){
-			this.currentPlayer = 0;
-			Book.getInstance().setCurrentEvent(Book.getInstance().getAllEvents()[choice.getEventIndex()]);
-			for(int i = 0; i < enemies.length; i++)
-				enemies[i].revive();
-			this.setDescription("");
-		}
-		else
-			this.battle(choice.getNumber());*/
 	}
 
 	
@@ -101,7 +94,13 @@ public class BattleEvent extends Event
 			Player player = this.players[this.currentAttacker];
 			player.attack(index, this.enemies);
 			this.addDescriptionNoSpace("usou " + player.getSkillsNames()[index]);
-			if(index == 0 || index == 1){
+			
+			if(enemies[0].getHp() <= 0){
+				this.addDescription(enemies[0].getName() + " derrotado");
+				this.currentAttacker = this.players.length + this.enemies.length;
+				return -1;
+			}
+			else if(index == 0 || index == 1){
 				this.addDescription(enemies[0].getName() + " Hp:" + enemies[0].getHp() + "  ");
 			}
 			else{
@@ -109,43 +108,22 @@ public class BattleEvent extends Event
 					this.addDescription(enemies[i].getName() + " Hp:" + enemies[i].getHp() + "  ");
 				}
 			}
+			
+			
 		}
-		else{
+		else if(this.currentAttacker >= this.players.length && this.currentAttacker < this.players.length + this.enemies.length){
 			int eIndex = this.currentAttacker - this.players.length;
 			Enemy enemy = this.enemies[eIndex];
 			enemy.attack(this.players[0]);
 			this.addDescriptionNoSpace("atacou " + this.players[0].getName());
 		}
+		else{
+			return finishBattle();
+		}
 		
 		
 		this.nextAttacker();
 		this.writeTurnDescription();
-		
-		/*Player player = Book.getInstance().getPlayers()[currentPlayer];
-		player.attack(index, this.enemies);
-		this.addDescription(player.getName() + " usou " + player.getSkillsNames()[index%3] ); 
-		
-		if(enemies[0].getHp() <= 0){
-			this.addDescription(this.enemies[0].getName() + " Hp: " + 0);
-			this.addDescription("Goblin veio a falecer");
-			this.currentPlayer = Book.getInstance().getPlayers().length;
-			return;
-			//Book.getInstance().setCurrentEvent(Book.getInstance().getAllEvents()[((ArrayList<Choice>)this.choices).get(0).getEventIndex()]);
-		}
-		
-		this.addDescription(this.enemies[0].getName() + " Hp: " + this.enemies[0].getHp());
-		Random random = new Random();
-		int r = random.nextInt(10);
-		if(r < 5)
-		{
-			int playerSorted = random.nextInt(Book.getInstance().getPlayers().length);
-			enemies[0].attack(Book.getInstance().getPlayers()[playerSorted]);
-			this.addDescription(enemies[0].getName() + " Atacou " + Book.getInstance().getPlayers()[playerSorted].getName());
-			this.addDescription(Book.getInstance().getPlayers()[playerSorted].getName() + " Hp: " + Book.getInstance().getPlayers()[playerSorted].getHp());
-			Book.getInstance().characterStatsGUI.repaintCharacterStats(playerSorted);
-		}
-			
-		this.nextPlayer();*/
 		
 		return -1;
 	}
@@ -170,6 +148,18 @@ public class BattleEvent extends Event
 	
 	public int getCurrentAttacker(){
 		return this.currentAttacker;
+	}
+	
+	private int finishBattle(){
+		for(Choice choice: choices){
+			if(choice.getDescription() == "Voltar"){
+				this.setDescription(BATTLEOVER_DESCRIPTION);
+				this.battleOver = true;
+				return choice.getEventIndex(); 
+			}
+		}
+		
+		return -1;
 	}
 
 }

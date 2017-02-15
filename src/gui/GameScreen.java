@@ -52,6 +52,10 @@ public class GameScreen extends DefaultScreen
 	public InventoryGUI getInventoryGUI(){
 		return this.inventoryGUI;
 	}
+	
+	public CharacterStatsGUI getCharacterStatsGUI(){
+		return this.characterStatsGUI;
+	}
 
 	
 }
