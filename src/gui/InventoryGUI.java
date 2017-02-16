@@ -51,7 +51,7 @@ public class InventoryGUI extends GameGUI
 		//MAPA
 		this.mapButton = new JButton();
 		this.mapButton.setBounds(200, 50, 150, 150);
-		this.mapButton.setIcon(AllImages.getInstance().getMapImage(0));
+		//this.mapButton.setIcon(AllImages.getInstance().getMapImage(0));
 		this.defaultScreen.add(this.mapButton);
 		
 		this.mapText = new JTextField("Mapa");

@@ -94,7 +94,11 @@ public class BattleEvent extends Event
 		if(sortedAttacker < probabilityOfEnemyTurn){
 			//É a vez de algum inimigo!
 			//Veremos qual:
-			int enemySorted = random.nextInt(this.enemies.length);
+			int enemySorted = 0;
+			do{
+				random.nextInt(this.enemies.length);
+			}while(enemies[enemySorted].getHp() <= 0);
+			
 			this.currentAttacker = this.players.length + enemySorted;
 		}
 		else{
