@@ -82,10 +82,11 @@ public class EventsCreation
 		Enemy[] enemies =  new Enemy[]{ new Goblin(0, "Goblin_1"), new Goblin(0, "Goblin_2") };
 		
 		Collection choices = new ArrayList<Choice>();
-		for(int i = 0; i < players.length; i++){
+		/*for(int i = 0; i < players.length; i++){
 			Player player = players[i];
+			String[] skillNames = player.getSkillsNamesForButtons();
 			for(int j = 0; j < player.getSkillsNames().length; j++){
-				choices.add(new BlankChoice(player.getSkillsNames()[j], j));
+				choices.add(new BlankChoice(skillNames[j], j));
 			}
 		}
 		
@@ -93,7 +94,7 @@ public class EventsCreation
 			choices.add(new BlankChoice("Continuar", 0));
 			choices.add(new BlankChoice("Continuar", 0));
 			choices.add(new BlankChoice("Continuar", 0));
-		}
+		}*/
         
         this.allEvents[2] = new BattleEvent("", choices, players,  enemies, 25);
 	}

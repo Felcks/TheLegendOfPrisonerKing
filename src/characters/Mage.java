@@ -17,7 +17,7 @@ public class Mage extends Player{
 		this.dexterity = 1;
 		this.magic = 3;
 		
-		this.attack = 1 + (this.level) + (this.strenght/4) + (this.dexterity/3);
+		this.attack = 1 + (this.level) + (this.strenght/4) + (this.dexterity/2);
 		this.defense = 1 + this.level;
 	}
 

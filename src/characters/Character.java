@@ -1,8 +1,6 @@
 package characters;
 
 public abstract class Character {
-	//Comentário do Matheus
-	//comentario do luis
 
 	protected int attack, defense;
 	protected int hp, maxHp;

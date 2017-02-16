@@ -13,6 +13,7 @@ public class AllImages {
 	private ImageIcon[] playersTurnImages;
 	private ImageIcon[] playersDeadImages;
 	private ImageIcon[] itensImages;
+	private ImageIcon[] mapImages;
 	
 	public static  AllImages getInstance(){
 		if(allImages == null)
@@ -33,18 +34,26 @@ public class AllImages {
 		this.playersImages = new ImageIcon[PlayerType.values().length];
 		this.playersImages[0] = new ImageIcon("Images/Characters/Warrior.png");
 		this.playersImages[1] = new ImageIcon("Images/Characters/Mage.png");
+		this.playersImages[2] = new ImageIcon("Images/Characters/Thief.png");
+		this.playersImages[3] = new ImageIcon("Images/Characters/Archer.png");
 		
 		this.playersHalfedImages = new ImageIcon[PlayerType.values().length];
 		this.playersHalfedImages[0] = new ImageIcon("Images/Characters/Warrior_Halfed.png");
 		this.playersHalfedImages[1] = new ImageIcon("Images/Characters/Mage_Halfed.png");
+		this.playersHalfedImages[2] = new ImageIcon("Images/Characters/Thief_Halfed.png");
+		this.playersHalfedImages[3] = new ImageIcon("Images/Characters/Archer_Halfed.png");
 		
 		this.playersTurnImages = new ImageIcon[PlayerType.values().length];
 		this.playersTurnImages[0] = new ImageIcon("Images/Characters/Warrior_Turn.png");
 		this.playersTurnImages[1] = new ImageIcon("Images/Characters/Mage_Turn.png");
+		this.playersTurnImages[2] = new ImageIcon("Images/Characters/Thief_Turn.png");
+		this.playersTurnImages[3] = new ImageIcon("Images/Characters/Archer_Turn.png");
 		
 		this.playersDeadImages = new ImageIcon[PlayerType.values().length];
 		this.playersDeadImages[0] = new ImageIcon("Images/Characters/Warrior_Dead.png");
 		this.playersDeadImages[1] = new ImageIcon("Images/Characters/Mage_Dead.png");
+		this.playersDeadImages[2] = new ImageIcon("Images/Characters/Thief_Dead.png");
+		this.playersDeadImages[3] = new ImageIcon("Images/Characters/Archer_Dead.png");
 	
 		this.itensImages = new ImageIcon[ItemType.values().length];
 		this.itensImages[0] = new ImageIcon("Images/Itens/Livro.png");
@@ -57,6 +66,11 @@ public class AllImages {
 		this.itensImages[7] = new ImageIcon("Images/Itens/Lenha.png");
 		this.itensImages[8] = new ImageIcon("Images/Itens/Binoculos.png");
 		this.itensImages[9] = new ImageIcon("Images/Itens/Mapa.png");
+		
+		this.mapImages = new ImageIcon[14];
+		for(int i = 0; i < this.mapImages.length; i++){
+			this.mapImages[i] = new ImageIcon("Images/Map/Map_"+ i +".jpg");
+		}
 	}
 	
 	public ImageIcon getPlayerImage(PlayerType playerType){
@@ -77,5 +91,9 @@ public class AllImages {
 	
 	public ImageIcon getPlayerDeadImage(PlayerType playerType){
 		return this.playersDeadImages[playerType.getIndex()];
+	}
+	
+	public ImageIcon getMapImage(int number){
+		return this.mapImages[number];
 	}
 }

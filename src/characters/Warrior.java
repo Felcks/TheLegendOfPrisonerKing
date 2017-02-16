@@ -17,11 +17,11 @@ public class Warrior extends Player{
 		this.hp = maxHp;
 		this.maxMp = 1 + (this.level * 1);
 		this.mp = maxMp;
-		this.strenght = 2;
-		this.dexterity = 2;
+		this.strenght = 3;
+		this.dexterity = 1;
 		this.magic = 1;
 		
-		this.attack = 4 + (this.level) + (this.strenght/2) + (this.dexterity/3);
+		this.attack = 4 + (this.level) + (this.strenght/2) + (this.dexterity/4);
 		this.defense = 2 + this.level;
 	}
 	

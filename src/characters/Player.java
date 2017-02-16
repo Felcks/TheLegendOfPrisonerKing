@@ -21,6 +21,17 @@ public abstract class Player extends Character {
     	return this.skillsNames;
     }
     
+    public String[] getSkillsNamesForButtons(){
+    	String[] skillsNamesForButtons = new String[skillsNames.length];
+    	for(int i = 0; i < skillsNamesForButtons.length; i++){
+    		skillsNamesForButtons[i] = skillsNames[i];
+    	}
+    	skillsNamesForButtons[1] = skillsNamesForButtons[1].concat(" (1 de mp)");
+    	skillsNamesForButtons[2] = skillsNamesForButtons[2].concat(" (2 de mp)");
+    	
+    	return skillsNamesForButtons;
+    }
+    
     public abstract void normalAtack(Character enemy);
 	
 	public abstract void skillOne(Character enemy);
@@ -31,6 +42,7 @@ public abstract class Player extends Character {
 	//retorna -1 caso ataque todos os inimigos
 	public int attack(int indexOfAttack, Character[] enemies){
 		int enemiesAttacked = 0;
+		
 		for(int i = 0; i < enemies.length; i++){
 			if(enemies[i].getHp() > 0){
 				enemiesAttacked = i;
@@ -39,11 +51,18 @@ public abstract class Player extends Character {
 		}
 		if(indexOfAttack == 0)
 			normalAtack(enemies[enemiesAttacked]);
-		else if(indexOfAttack == 1)
-			skillOne(enemies[enemiesAttacked]);
+		else if(indexOfAttack == 1){
+			if(this.mp >= 1)
+				skillOne(enemies[enemiesAttacked]);
+			else
+				return -2;
+		}
 		else if(indexOfAttack == 2){
-			skillTwo(enemies);
-			enemiesAttacked = -1;
+			if(this.mp >= 2){
+				skillTwo(enemies);
+				enemiesAttacked = -1;
+			}
+			else return -2;
 		}
 		
 		return enemiesAttacked;

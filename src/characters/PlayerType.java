@@ -2,7 +2,7 @@ package characters;
 
 public enum PlayerType {
 	
-	WARRIOR(0), MAGE(1), ARCHER(2), THIEF(3);
+	WARRIOR(0), MAGE(1), THIEF(2), ARCHER(3);
 	
 	private int index;
 	
