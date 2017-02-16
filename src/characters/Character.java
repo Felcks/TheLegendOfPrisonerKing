@@ -35,6 +35,8 @@ public abstract class Character {
 
     public void takeDamage(int attack) {
         this.hp -= attack;
+        if(this.hp <= 0)
+        	this.hp = 0;
     }
     
     public int getAttack(){

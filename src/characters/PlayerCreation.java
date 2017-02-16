@@ -21,8 +21,11 @@ public class PlayerCreation {
 		
 		this.players = new Player[amountOfPlayers];
 		
-		for(int i = 0; i < amountOfPlayers; i++){
-				this.players[i] = new Warrior(0, names[i]);
-		}
+
+		this.players[0] = new Warrior(0, names[0]);
+		this.players[1] = new Mage(0, names[1]);
+		this.players[2] = new Warrior(0, names[2]);
+		this.players[3] = new Mage(0, names[3]);
+		
 	}
 }

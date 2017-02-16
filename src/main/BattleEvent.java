@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Random;
 
+import javax.swing.plaf.ProgressBarUI;
 import javax.swing.plaf.synth.SynthScrollBarUI;
 
 import characters.Character;
@@ -18,15 +19,17 @@ public class BattleEvent extends Event
 	private int lengthOfDescription = 0;
 	private int currentAttacker = 0;
 	private int currentPlayerAttacker = 0;
+	private int probabilityOfEnemyTurn = 0;
 	
 	private static final String BATTLEOVER_DESCRIPTION = "Uma grande batalha já foi travada neste local!";
 	private Boolean battleOver = false;
 	
-	public BattleEvent(String description, Collection<Choice> choice, Player[] players, Enemy[] enemies)
+	public BattleEvent(String description, Collection<Choice> choice, Player[] players, Enemy[] enemies, int probabilityOfEnemyTurn)
 	{
 		super(description, choice, GameStatus.BATTLE);
 		this.enemies = enemies;
 		this.players = players;
+		this.probabilityOfEnemyTurn = probabilityOfEnemyTurn;
 		
 		//Pq isso estava aqui!?
 		/*Choice a = new BlankChoice("", 0);
@@ -66,8 +69,14 @@ public class BattleEvent extends Event
 	public void nextAttacker()
 	{
 		Random random = new Random();
-		int sortedAttacker = random.nextInt(4);
-		if(sortedAttacker <= 0){
+		int sortedAttacker = random.nextInt(100);
+		if(sortedAttacker < probabilityOfEnemyTurn){
+			//É a vez de algum inimigo!
+			//Veremos qual:
+			int enemySorted = random.nextInt(this.enemies.length);
+			this.currentAttacker = this.players.length + enemySorted;
+		}
+		else{
 			if(currentPlayerAttacker < this.players.length - 1){
 				this.currentPlayerAttacker += 1;
 			}
@@ -76,10 +85,6 @@ public class BattleEvent extends Event
 			}
 
 			this.currentAttacker = this.currentPlayerAttacker;
-		}
-		else{
-			//Primeigo goblin só pra teste
-			this.currentAttacker = this.players.length;
 		}
 	}
 	
@@ -90,27 +95,34 @@ public class BattleEvent extends Event
 
 	
 	public int battle(int index){
+		//Se o atacante for um player:
 		if(this.currentAttacker < this.players.length){
 			Player player = this.players[this.currentAttacker];
-			player.attack(index, this.enemies);
-			this.addDescriptionNoSpace("usou " + player.getSkillsNames()[index]);
+			int enemyAttacked = player.attack(index, this.enemies);
 			
-			if(enemies[0].getHp() <= 0){
-				this.addDescription(enemies[0].getName() + " derrotado");
-				this.currentAttacker = this.players.length + this.enemies.length;
-				return -1;
+			if(enemyAttacked >= 0){
+				this.addDescriptionNoSpace("usou " + player.getSkillsNames()[index] + " em " + enemies[enemyAttacked].getName());
+				this.addDescription(enemies[enemyAttacked].getName() + " Hp:" + enemies[enemyAttacked].getHp() + "  ");
 			}
-			else if(index == 0 || index == 1){
-				this.addDescription(enemies[0].getName() + " Hp:" + enemies[0].getHp() + "  ");
-			}
-			else{
-				for(int i = 0; i < this.enemies.length; i++){
+			else if(enemyAttacked == -1){
+				this.addDescriptionNoSpace("usou " + player.getSkillsNames()[index] + " em todos os inimigos");
+				for(int i = 0; i < enemies.length; i++){
 					this.addDescription(enemies[i].getName() + " Hp:" + enemies[i].getHp() + "  ");
 				}
 			}
 			
-			
+			if(enemyAttacked >= 0){
+				if(enemies[enemyAttacked].getHp() <= 0){
+					this.addDescription(enemies[enemyAttacked].getName() + " derrotado");
+					if(this.checkIfThereIsEnemyAlive(enemies) == false){
+						this.currentAttacker = this.players.length + this.enemies.length;
+						this.addDescription("Fim da batalha!");
+						return -1;
+					}
+				}
+			}
 		}
+		//Se o atacante for um inimigo
 		else if(this.currentAttacker >= this.players.length && this.currentAttacker < this.players.length + this.enemies.length){
 			int eIndex = this.currentAttacker - this.players.length;
 			Enemy enemy = this.enemies[eIndex];
@@ -158,8 +170,17 @@ public class BattleEvent extends Event
 				return choice.getEventIndex(); 
 			}
 		}
-		
 		return -1;
 	}
+	
+	private Boolean checkIfThereIsEnemyAlive(Enemy[] enemies){
+		for(int i = 0; i < enemies.length; i++){
+			if(enemies[i].getHp() > 0)
+				return true;
+		}
+		
+		return false;
+	}
+	
 
 }

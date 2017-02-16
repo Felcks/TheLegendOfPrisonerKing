@@ -9,6 +9,12 @@ public abstract class Enemy extends Character {
     	this.enemyType = enemyType;
     }
     
+    public Enemy(int level, EnemyType enemyType, String name){
+    	super(level, name);
+    	this.enemyType = enemyType;
+    }
+    
+    
     public abstract void attack(Player player);
     
 }

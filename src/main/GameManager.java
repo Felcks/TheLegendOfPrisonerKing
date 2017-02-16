@@ -92,6 +92,8 @@ public class GameManager
 		
 		this.guiManager.getGameScreen().getDialogGUI().repaintDialogForBattle(this.getCurrentEvent().choices, 
 														this.getCurrentEvent().getDescription(), currentPlayer);
+		
+		this.guiManager.getGameScreen().getCharacterStatsGUI().repaintCharactersImages(players, currentPlayer);
 	}
 	
 	private void repaintInventory(){
@@ -103,7 +105,11 @@ public class GameManager
 	}
 	
 	public void dialogButtonClicked(int index){
+		//nextEvent é o index próximo evento
+		//ItemEvents retornam o index do item a ser pego
+		//BattleEvent retorna -1 se a batlhar continuar ou um index de cena maior que zero, se for o fim da batalha
 		int nextEvent = this.getCurrentEvent().executeChoice(index);
+		
 		if(this.getCurrentEvent() instanceof BlankEvent){
 			this.book.setEventActually(nextEvent);
 		}
@@ -128,6 +134,8 @@ public class GameManager
 		
 		if(this.getCurrentEvent() instanceof BlankEvent || this.getCurrentEvent() instanceof ItemEvent){
 			repaintDialog();
+			//Para ele repintar todos os players para o padrao
+			this.guiManager.getGameScreen().getCharacterStatsGUI().repaintCharactersImages(players, 99);
 		}
 		else if(this.getCurrentEvent() instanceof BattleEvent)
 			repaintDialogForBattle();

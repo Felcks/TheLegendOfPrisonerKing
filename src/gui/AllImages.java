@@ -9,7 +9,9 @@ public class AllImages {
 	
 	private static AllImages allImages;
 	private ImageIcon[] playersImages;
-	//private ImageIcon[] enemiesImages;
+	private ImageIcon[] playersHalfedImages;
+	private ImageIcon[] playersTurnImages;
+	private ImageIcon[] playersDeadImages;
 	private ImageIcon[] itensImages;
 	
 	public static  AllImages getInstance(){
@@ -31,6 +33,18 @@ public class AllImages {
 		this.playersImages = new ImageIcon[PlayerType.values().length];
 		this.playersImages[0] = new ImageIcon("Images/Characters/Warrior.png");
 		this.playersImages[1] = new ImageIcon("Images/Characters/Mage.png");
+		
+		this.playersHalfedImages = new ImageIcon[PlayerType.values().length];
+		this.playersHalfedImages[0] = new ImageIcon("Images/Characters/Warrior_Halfed.png");
+		this.playersHalfedImages[1] = new ImageIcon("Images/Characters/Mage_Halfed.png");
+		
+		this.playersTurnImages = new ImageIcon[PlayerType.values().length];
+		this.playersTurnImages[0] = new ImageIcon("Images/Characters/Warrior_Turn.png");
+		this.playersTurnImages[1] = new ImageIcon("Images/Characters/Mage_Turn.png");
+		
+		this.playersDeadImages = new ImageIcon[PlayerType.values().length];
+		this.playersDeadImages[0] = new ImageIcon("Images/Characters/Warrior_Dead.png");
+		this.playersDeadImages[1] = new ImageIcon("Images/Characters/Mage_Dead.png");
 	
 		this.itensImages = new ImageIcon[ItemType.values().length];
 		this.itensImages[0] = new ImageIcon("Images/Itens/Livro.png");
@@ -51,5 +65,17 @@ public class AllImages {
 	
 	public ImageIcon getItensImage(ItemType itemType){
 		return this.itensImages[itemType.getIndex()];
+	}
+	
+	public ImageIcon getPlayerHalfedImage(PlayerType playerType){
+		return this.playersHalfedImages[playerType.getIndex()];
+	}
+	
+	public ImageIcon getPlayerTurnImage(PlayerType playerType){
+		return this.playersTurnImages[playerType.getIndex()];
+	}
+	
+	public ImageIcon getPlayerDeadImage(PlayerType playerType){
+		return this.playersDeadImages[playerType.getIndex()];
 	}
 }

@@ -27,14 +27,28 @@ public abstract class Player extends Character {
 	
 	public abstract void skillTwo(Character[] enemies);
 	
-	public void attack(int indexOfAttack, Character[] enemies){
+	//enemiesAttacked --> Ataca o primeiro inimigo que estiver vivo
+	//retorna -1 caso ataque todos os inimigos
+	public int attack(int indexOfAttack, Character[] enemies){
+		int enemiesAttacked = 0;
+		for(int i = 0; i < enemies.length; i++){
+			if(enemies[i].getHp() > 0){
+				enemiesAttacked = i;
+				break;
+			}
+		}
 		if(indexOfAttack == 0)
-			normalAtack(enemies[0]);
+			normalAtack(enemies[enemiesAttacked]);
 		else if(indexOfAttack == 1)
-			skillOne(enemies[0]);
-		else if(indexOfAttack == 2)
+			skillOne(enemies[enemiesAttacked]);
+		else if(indexOfAttack == 2){
 			skillTwo(enemies);
+			enemiesAttacked = -1;
+		}
+		
+		return enemiesAttacked;
 	}
+	
 	
 	public int[] getAttributes(){
 		int[] attributes = new int[5];

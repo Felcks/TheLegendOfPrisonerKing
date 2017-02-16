@@ -7,6 +7,11 @@ public class Goblin extends Enemy{
 		gerarStatus();
 	}
 	
+	public Goblin(int level, String name){
+		super(level, EnemyType.GOBLIN, name);	
+		gerarStatus();
+	}
+	
 	@Override
 	protected void gerarStatus() {
 		this.hp = 10 + (2 * this.level);
