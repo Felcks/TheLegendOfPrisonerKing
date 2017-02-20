@@ -22,6 +22,7 @@ public class BattleEvent extends Event
 	private int probabilityOfEnemyTurn = 0;
 	
 	private static final String BATTLEOVER_DESCRIPTION = "Uma grande batalha já foi travada neste local!";
+	private static final String GAMEOVER_DESCRIPTION = "Aniquilados...";
 	private Boolean battleOver = false;
 	
 	public BattleEvent(String description, Collection<Choice> choices, Player[] players, Enemy[] enemies, int probabilityOfEnemyTurn)
@@ -67,6 +68,16 @@ public class BattleEvent extends Event
 		this.choices.add(endOfBattleChoices1);
 		this.choices.add(endOfBattleChoices2);
 		
+		Choice gameOver1 = new BlankChoice("Game Over", 0);
+		gameOver1.defineNumber(this.choices.size());
+		Choice gameOver2 = new BlankChoice("Game Over",0);
+		gameOver2.defineNumber(this.choices.size());
+		Choice gameOver3 = new BlankChoice("Game Over", 0);
+		gameOver3.defineNumber(this.choices.size());
+		this.choices.add(gameOver1);
+		this.choices.add(gameOver2);
+		this.choices.add(gameOver3);
+		
 		this.writeStartDescription();
 		this.writeTurnDescription();
 	}
@@ -91,7 +102,7 @@ public class BattleEvent extends Event
 	{
 		Random random = new Random();
 		int sortedAttacker = random.nextInt(100);
-		if(sortedAttacker < probabilityOfEnemyTurn){
+		if(sortedAttacker < this.probabilityOfEnemyTurn){
 			//É a vez de algum inimigo!
 			//Veremos qual:
 			int enemySorted = 0;
@@ -102,12 +113,14 @@ public class BattleEvent extends Event
 			this.currentAttacker = this.players.length + enemySorted;
 		}
 		else{
-			if(currentPlayerAttacker < this.players.length - 1){
-				this.currentPlayerAttacker += 1;
-			}
-			else{
-				this.currentPlayerAttacker = 0;
-			}
+			do{
+				if(currentPlayerAttacker < this.players.length - 1){
+					this.currentPlayerAttacker += 1;
+				}
+				else{
+					this.currentPlayerAttacker = 0;
+				}
+			}while(this.players[currentPlayerAttacker].getHp() <= 0);
 
 			this.currentAttacker = this.currentPlayerAttacker;
 		}
@@ -169,12 +182,22 @@ public class BattleEvent extends Event
 			Enemy enemy = this.enemies[currentAttacker - this.players.length];
 			int sortedPlayer = 0;
 			Random random = new Random();
+			int tries = 0;
 			do{
 				sortedPlayer = random.nextInt(this.players.length);
+				tries++;
+				if(tries == 50){
+					if(checkIFThereIsPlayerAlive() == false){
+						this.currentAttacker = this.players.length + this.enemies.length + 1;
+						this.addDescription("Fim de jogo!");
+						return -1;
+					}
+				}
 			}while(this.players[sortedPlayer].getHp() <= 0);
 			
 			enemy.attack(this.players[sortedPlayer]);
 			this.addDescriptionNoSpace("atacou " + this.players[sortedPlayer].getName());
+			
 		}
 		else{
 			return finishBattle();
@@ -211,10 +234,15 @@ public class BattleEvent extends Event
 	
 	private int finishBattle(){
 		for(Choice choice: choices){
-			if(choice.getDescription() == "Voltar"){
+			if(choice.getDescription().equals("Voltar")){
 				this.setDescription(BATTLEOVER_DESCRIPTION);
 				this.battleOver = true;
 				return choice.getEventIndex(); 
+			}
+			else if(choice.getDescription().equals("Game Over")){
+				this.setDescription(GAMEOVER_DESCRIPTION);
+				this.battleOver = true;
+				return 0;
 			}
 		}
 		return -1;
@@ -223,6 +251,15 @@ public class BattleEvent extends Event
 	private Boolean checkIfThereIsEnemyAlive(Enemy[] enemies){
 		for(int i = 0; i < enemies.length; i++){
 			if(enemies[i].getHp() > 0)
+				return true;
+		}
+		
+		return false;
+	}
+	
+	private Boolean checkIFThereIsPlayerAlive(){
+		for(int i = 0; i < players.length; i++){
+			if(players[i].getHp() > 0)
 				return true;
 		}
 		

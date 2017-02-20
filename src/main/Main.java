@@ -25,7 +25,7 @@ public class Main
 	    try 
 	    {  
      		UIManager.setLookAndFeel(new NapkinLookAndFeel()); 
-     		SwingUtilities.updateComponentTreeUI(gameManager.getGUIManager().window);
+	    	SwingUtilities.updateComponentTreeUI(gameManager.getGUIManager().window);
 	    } 
 	    catch (Exception ex) 
 	    {  

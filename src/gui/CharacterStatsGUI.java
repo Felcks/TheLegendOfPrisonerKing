@@ -37,19 +37,19 @@ public class CharacterStatsGUI extends GameGUI{
 			
 			JButton around = new JButton();
 			around.setBounds(375 + i*105, 50, 100, 150);
-			this.defaultScreen.add(around);
+			this.defaultScreen.add(around, 1);
 			
 			this.charactersNames[i] = new JTextField(players[i].getName());
 			this.charactersNames[i].setBounds(375 + i*105, 30, 100, 20);
 			this.charactersNames[i].setEditable(false);
 			this.charactersNames[i].setHorizontalAlignment(SwingConstants.CENTER);
-			this.defaultScreen.add(this.charactersNames[i]);
+			this.defaultScreen.add(this.charactersNames[i], 1);
 			
 			String[] attributes = { "HP:", "MP:", "STR:", "INT:", "DEX:" };
 			for(int j =0; j < attributes.length; j++){
 				JLabel label = new JLabel(attributes[j]);
 				label.setBounds(382 + i*105, 50 + j * 15, 100, 150);
-				this.defaultScreen.add(label);
+				this.defaultScreen.add(label, 1);
 			}
 			
 			this.charactersStats[i] = new JLabel[attributes.length];
@@ -67,7 +67,7 @@ public class CharacterStatsGUI extends GameGUI{
 				}
 				
 				this.charactersStats[i][j].setText(statsToShow);
-				this.defaultScreen.add(this.charactersStats[i][j]);
+				this.defaultScreen.add(this.charactersStats[i][j], 1);
 			}
 		}
 	
@@ -90,7 +90,7 @@ public class CharacterStatsGUI extends GameGUI{
 				}
 				
 				this.charactersStats[i][j].setText(statsToShow);
-				this.defaultScreen.add(this.charactersStats[i][j]);
+				this.defaultScreen.add(this.charactersStats[i][j], 1);
 			}
 		}
 	}

@@ -17,8 +17,6 @@ public class GUIManager {
 		this.createWindow();
 		this.createCards();
 		this.createScreens();
-		
-		this.changeToScreen(gameScreen.getName());
 	}
 	
 	private void createWindow(){
@@ -37,11 +35,12 @@ public class GUIManager {
 	}
 	
 	private void createScreens(){
+		this.menuScreen = new MenuScreen(this, "menuScreen");
 		this.gameScreen = new GameScreen(this, "gameScreen");
-		this.menuScreen = new DefaultScreen(this, "menuScreen");
 		
-		this.cards.add(gameScreen, gameScreen.getName());
-		this.cards.add(this.menuScreen , menuScreen.getName());
+
+		this.cards.add(this.menuScreen , menuScreen.getNameOfScreen());
+		this.cards.add(this.gameScreen, gameScreen.getNameOfScreen());
 	}
 	
 	public void changeToScreen(String screenName){
@@ -55,6 +54,10 @@ public class GUIManager {
 	
 	public GameScreen getGameScreen(){
 		return (GameScreen) this.gameScreen;
+	}
+	
+	public MenuScreen getMenuScreen(){
+		return (MenuScreen) this.menuScreen;
 	}
 
 

@@ -82,64 +82,6 @@ public class DialogGUI extends GameGUI
 		this.textArea.setText(description);
 	}
 	
-	private void repaint(Book book)
-	{
-		/*this.textArea.setText(book.showHistory());
-		int i = 0;
-		GameScreen gameScreen = (GameScreen)defaultScreen;
-		
-		/*for(Choice choice:book.nextEvents()) 
-		{
-			this.optionsButtons[i].setBackground(Color.gray.brighter());
-			this.optionsButtons[i].setVisible(true);
-			this.optionsButtons[i].setText(choice.getDescription());
-			i++;
-		}*/
-		/*       
-		for(i = 0; i < 4; i++)
-		{
-			int currentPlayer = 0;
-			int atacksAmount = 4;
-			if(book.getCurrentEvent() instanceof BattleEvent){
-				currentPlayer = ((BattleEvent)book.getCurrentEvent()).getCurrentPlayer();
-				//atacksAmount = player.quantidadeDeAtaques --> se quiser
-				atacksAmount = 3;
-			}
-			
-			if(i  >= book.nextEvents().size() || i >= atacksAmount){
-				break;
-			}
-			
-			Choice choice = ((ArrayList<Choice>)book.nextEvents()).get(i + currentPlayer * atacksAmount);
-			this.optionsButtons[i].setBackground(Color.gray.brighter());
-			this.optionsButtons[i].setVisible(true);
-			this.optionsButtons[i].setText(choice.getDescription());
-			
-		}
-		
-		for(; i < optionsButtons.length; i++)
-		{
-			this.optionsButtons[i].setVisible(false);
-		}
-		
-		*/
-		
-		/*}
-		else if(gameScreen.getGameStatus() == GameStatus.BATTLE)
-		{
-			BattleEvent battleEvent = (BattleEvent)book.getCurrentEvent();
-			for(int j = (3 * battleEvent.getCurrentPlayer()); j < (3 * battleEvent.getCurrentPlayer()) + 3; j++) 
-			{
-				this.optionsButtons[i].setBackground(Color.gray.brighter());
-				this.optionsButtons[i].setVisible(true);
-				this.optionsButtons[i].setText( (String) ((Choice)((ArrayList)book.nextEvents()).get(i + (battleEvent.getCurrentPlayer() * 3))).getDescription());
-				i++;
-		    }
-			
-			this.optionsButtons[3].setVisible(false);*/
-		
-	}
-	
 	public void setDialogButtonListener(DialogButtonListener[] dbls){
 		for(int i = 0; i < optionsButtons.length; i++){
 	    	this.optionsButtons[i].addActionListener(dbls[i]);

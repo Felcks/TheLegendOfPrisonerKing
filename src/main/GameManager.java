@@ -5,6 +5,7 @@ import characters.PlayerCreation;
 import gui.GUIManager;
 import itens.ItemType;
 import utilities.DialogButtonListener;
+import utilities.MenuButtonListener;
 import itens.Inventory;
 
 public class GameManager 
@@ -20,6 +21,7 @@ public class GameManager
 	
 	private GUIManager guiManager;
 	private DialogButtonListener[] dialogButtonListeners;
+	private MenuButtonListener[] menuButtonListeners;
 	
 	public GameManager(){
 		this.guiManager = new GUIManager();
@@ -40,6 +42,10 @@ public class GameManager
 		this.dialogButtonListeners = new DialogButtonListener[4];
 		for(int i = 0; i < 4; i++)
 			this.dialogButtonListeners[i] = new DialogButtonListener(this, i);
+		
+		this.menuButtonListeners = new MenuButtonListener[4];
+		for(int i = 0; i < 2; i++)
+			this.menuButtonListeners[i] = new MenuButtonListener(this, i);
 		
 		this.setDialogListeners();
 		this.startCharactersStatsGUI();
@@ -102,6 +108,7 @@ public class GameManager
 	
 	private void setDialogListeners(){
 		this.guiManager.getGameScreen().getDialogGUI().setDialogButtonListener(this.dialogButtonListeners);
+		this.guiManager.getMenuScreen().setMenuButtonListener(this.menuButtonListeners);
 	}
 	
 	public void dialogButtonClicked(int index){
@@ -140,5 +147,9 @@ public class GameManager
 		else if(this.getCurrentEvent() instanceof BattleEvent)
 			repaintDialogForBattle();
 		
+	}
+	
+	public void menuButtonClicked(int index){
+		this.guiManager.changeToScreen("gameScreen");
 	}
 }

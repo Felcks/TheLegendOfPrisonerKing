@@ -10,12 +10,28 @@ public abstract class Event
     private String description;
     protected Collection<Choice> choices;
     private GameStatus eventStatus;
+    private int mapIndex = -99;
     
     public Event(String description, Collection<Choice> choices, GameStatus eventStatus) 
     {
         this.description = description;
         this.choices = new ArrayList<>();
         this.eventStatus = eventStatus;
+
+        int i = 0;
+        for(Choice choice:choices) {
+            choice.defineNumber(i);
+            this.choices.add(choice);
+            i++;
+        }
+    }
+    
+    public Event(String description, Collection<Choice> choices, GameStatus eventStatus, int mapIndex) 
+    {
+        this.description = description;
+        this.choices = new ArrayList<>();
+        this.eventStatus = eventStatus;
+        this.mapIndex = mapIndex;
 
         int i = 0;
         for(Choice choice:choices) {

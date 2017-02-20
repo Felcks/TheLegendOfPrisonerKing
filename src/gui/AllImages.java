@@ -15,6 +15,8 @@ public class AllImages {
 	private ImageIcon[] itensImages;
 	private ImageIcon[] mapImages;
 	
+	private ImageIcon teste;
+	
 	public static  AllImages getInstance(){
 		if(allImages == null)
 			allImages = new AllImages();
@@ -23,7 +25,7 @@ public class AllImages {
 	}
 	
 	public void start(){
-		
+		//
 	}
 	
 	private AllImages(){

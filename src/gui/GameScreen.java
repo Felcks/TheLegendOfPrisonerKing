@@ -6,6 +6,8 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.util.Collection;
 
+import javax.swing.JLabel;
+
 import main.Book;
 import main.Choice;
 import utilities.DialogButtonListener;
@@ -29,6 +31,9 @@ public class GameScreen extends DefaultScreen
 		this.battleGUI = new BattleGUI(this);
 		this.dialogGUI = new DialogGUI(this);
 		this.characterStatsGUI = new CharacterStatsGUI(this);
+		
+		
+		
 	}
 	
 	@Override
@@ -38,6 +43,7 @@ public class GameScreen extends DefaultScreen
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
         					 RenderingHints.VALUE_ANTIALIAS_ON);
+        
         
         this.inventoryGUI.draw(g2d);
         this.battleGUI.draw(g2d);

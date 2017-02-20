@@ -176,7 +176,7 @@ public class EventsCreation
 	}
 	private void createEventBattle(Player[] players)
 	{
-		Enemy[] enemies =  new Enemy[]{ new Goblin(0, "Goblin_Guarda1"), new Goblin(0, "Goblin_Guarda2") };
+		Enemy[] enemies =  new Enemy[]{ new Goblin(10, "Goblin_Guarda1"), new Goblin(10, "Goblin_Guarda2") };
 		
 		Collection choices = new ArrayList<Choice>();
         this.allEvents[10] = new BattleEvent("O guarda é um goblin. Veio outro goblin para ajuda-lo! ", choices, players,  enemies, 25);
