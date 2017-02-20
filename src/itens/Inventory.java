@@ -20,6 +20,8 @@ public class Inventory {
 		switch(itemIndex){
 			case 3:
 				return this.addItem(new Key());
+			case 9:
+				return this.addItem(new Map());
 		}
 		
 		return -1;

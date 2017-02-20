@@ -1,9 +1,16 @@
 package main;
 
+import java.applet.Applet;
+import java.applet.AudioClip;
+import java.io.File;
+import java.io.FileInputStream;
+import java.net.URL;
+
 import characters.Player;
 import characters.PlayerCreation;
 import gui.GUIManager;
 import itens.ItemType;
+import utilities.CreditButtonListener;
 import utilities.DialogButtonListener;
 import utilities.MenuButtonListener;
 import itens.Inventory;
@@ -22,6 +29,10 @@ public class GameManager
 	private GUIManager guiManager;
 	private DialogButtonListener[] dialogButtonListeners;
 	private MenuButtonListener[] menuButtonListeners;
+	private CreditButtonListener creditButtonListener;
+	
+	private AudioClip music;
+	private int delay = 10000;
 	
 	public GameManager(){
 		this.guiManager = new GUIManager();
@@ -47,8 +58,11 @@ public class GameManager
 		for(int i = 0; i < 2; i++)
 			this.menuButtonListeners[i] = new MenuButtonListener(this, i);
 		
+		this.creditButtonListener = new CreditButtonListener(this, 0);
+		
 		this.setDialogListeners();
-		this.startCharactersStatsGUI();
+		this.startCharactersStatsGUI();		
+		
 	}
 	
 	public void setGameStatus(GameStatus gameStatus){
@@ -106,12 +120,21 @@ public class GameManager
 		this.guiManager.getGameScreen().getInventoryGUI().repaintInventory(inventory.getItens());
 	}
 	
+	private void repaintMap(int index){
+		this.guiManager.getGameScreen().getInventoryGUI().repaintMap(inventory.getItens(), index);
+	}
+	
 	private void setDialogListeners(){
 		this.guiManager.getGameScreen().getDialogGUI().setDialogButtonListener(this.dialogButtonListeners);
 		this.guiManager.getMenuScreen().setMenuButtonListener(this.menuButtonListeners);
+		this.guiManager.getCreditScreen().setButtonListener(this.creditButtonListener);
 	}
 	
 	public void dialogButtonClicked(int index){
+		if(can == false)
+			return;
+		
+		can = false;
 		//nextEvent é o index próximo evento
 		//ItemEvents retornam o index do item a ser pego
 		//BattleEvent retorna -1 se a batlhar continuar ou um index de cena maior que zero, se for o fim da batalha
@@ -136,6 +159,13 @@ public class GameManager
 				this.inventory.addItem(nextEvent);
 				this.repaintInventory();
 				((ItemEvent) this.getCurrentEvent()).SetNullDescription();
+				if(nextEvent == 9){
+					for(Choice choice : this.getCurrentEvent().choices){
+						this.getCurrentEvent().choices.remove(choice);
+						break;
+					}
+					((ItemEvent) this.getCurrentEvent()).choices.add(new BlankChoice("Prosseguir", 17));
+				}
 			}
 		}
 		
@@ -147,9 +177,21 @@ public class GameManager
 		else if(this.getCurrentEvent() instanceof BattleEvent)
 			repaintDialogForBattle();
 		
+		if(this.getCurrentEvent().getMapPos() >= 0)
+			this.repaintMap(this.getCurrentEvent().getMapPos());
+		
+		can = true;
 	}
 	
+	Boolean can = true;
 	public void menuButtonClicked(int index){
-		this.guiManager.changeToScreen("gameScreen");
+		if(index == 0)
+			this.guiManager.changeToScreen("gameScreen");
+		else
+			this.guiManager.changeToScreen("creditScreen");
+	}
+	
+	public void creditButtonClicked(){
+		this.guiManager.changeToScreen("menuScreen");
 	}
 }

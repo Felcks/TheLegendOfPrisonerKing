@@ -11,6 +11,11 @@ public class BlankEvent extends Event
         super(description, choices, GameStatus.DIALOG);
     }
 	
+	public BlankEvent(String description, Collection<Choice> choices, int mapPos) 
+	{
+        super(description, choices, GameStatus.DIALOG, mapPos);
+    }
+	
 	@Override
 	public int executeChoice(int number){
 		for(Choice choice : choices){

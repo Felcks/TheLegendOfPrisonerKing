@@ -69,7 +69,7 @@ public class AllImages {
 		this.itensImages[8] = new ImageIcon("Images/Itens/Binoculos.png");
 		this.itensImages[9] = new ImageIcon("Images/Itens/Mapa.png");
 		
-		this.mapImages = new ImageIcon[14];
+		this.mapImages = new ImageIcon[15];
 		for(int i = 0; i < this.mapImages.length; i++){
 			this.mapImages[i] = new ImageIcon("Images/Map/Map_"+ i +".jpg");
 		}

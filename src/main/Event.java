@@ -10,7 +10,7 @@ public abstract class Event
     private String description;
     protected Collection<Choice> choices;
     private GameStatus eventStatus;
-    private int mapIndex = -99;
+    private int mapPos = -1;
     
     public Event(String description, Collection<Choice> choices, GameStatus eventStatus) 
     {
@@ -26,12 +26,12 @@ public abstract class Event
         }
     }
     
-    public Event(String description, Collection<Choice> choices, GameStatus eventStatus, int mapIndex) 
+    public Event(String description, Collection<Choice> choices, GameStatus eventStatus, int mapPos) 
     {
         this.description = description;
         this.choices = new ArrayList<>();
         this.eventStatus = eventStatus;
-        this.mapIndex = mapIndex;
+        this.mapPos = mapPos;
 
         int i = 0;
         for(Choice choice:choices) {
@@ -86,5 +86,10 @@ public abstract class Event
     	return this.eventStatus;
     }
     
+    public int getMapPos(){
+    	return this.mapPos;
+    }
+    
     public abstract int executeChoice(int number);
+    
 }

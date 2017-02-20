@@ -12,6 +12,7 @@ public class GUIManager {
 	private JPanel cards;
 	private DefaultScreen gameScreen;
 	private DefaultScreen menuScreen;
+	private DefaultScreen creditScreen;
 	
 	public GUIManager(){
 		this.createWindow();
@@ -37,10 +38,11 @@ public class GUIManager {
 	private void createScreens(){
 		this.menuScreen = new MenuScreen(this, "menuScreen");
 		this.gameScreen = new GameScreen(this, "gameScreen");
+		this.creditScreen = new CreditScreen(this, "creditScreen");
 		
-
 		this.cards.add(this.menuScreen , menuScreen.getNameOfScreen());
 		this.cards.add(this.gameScreen, gameScreen.getNameOfScreen());
+		this.cards.add(this.creditScreen, creditScreen.getNameOfScreen());
 	}
 	
 	public void changeToScreen(String screenName){
@@ -58,6 +60,10 @@ public class GUIManager {
 	
 	public MenuScreen getMenuScreen(){
 		return (MenuScreen) this.menuScreen;
+	}
+	
+	public CreditScreen getCreditScreen(){
+		return (CreditScreen) this.creditScreen;
 	}
 
 

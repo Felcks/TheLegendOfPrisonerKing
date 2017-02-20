@@ -25,7 +25,8 @@ public class BattleEvent extends Event
 	private static final String GAMEOVER_DESCRIPTION = "Aniquilados...";
 	private Boolean battleOver = false;
 	
-	public BattleEvent(String description, Collection<Choice> choices, Player[] players, Enemy[] enemies, int probabilityOfEnemyTurn)
+	public BattleEvent(String description, Collection<Choice> choices, Player[] players, Enemy[] enemies, 
+			int probabilityOfEnemyTurn, int nextEvent)
 	{
 		super(description, choices, GameStatus.BATTLE);
 		this.enemies = enemies;
@@ -58,11 +59,11 @@ public class BattleEvent extends Event
 		}
 		
 		
-		Choice endOfBattleChoices = new BlankChoice("Voltar", 0);
+		Choice endOfBattleChoices = new BlankChoice("Fim de Batalha!", nextEvent);
 		endOfBattleChoices.defineNumber(this.choices.size());
-		Choice endOfBattleChoices1 = new BlankChoice("Voltar",0);
+		Choice endOfBattleChoices1 = new BlankChoice("Fim de Batalha!",nextEvent);
 		endOfBattleChoices1.defineNumber(this.choices.size());
-		Choice endOfBattleChoices2 = new BlankChoice("Voltar", 0);
+		Choice endOfBattleChoices2 = new BlankChoice("Fim de Batalha!", nextEvent);
 		endOfBattleChoices2.defineNumber(this.choices.size());
 		this.choices.add(endOfBattleChoices);
 		this.choices.add(endOfBattleChoices1);
@@ -234,7 +235,7 @@ public class BattleEvent extends Event
 	
 	private int finishBattle(){
 		for(Choice choice: choices){
-			if(choice.getDescription().equals("Voltar")){
+			if(choice.getDescription().equals("Fim de Batalha!")){
 				this.setDescription(BATTLEOVER_DESCRIPTION);
 				this.battleOver = true;
 				return choice.getEventIndex(); 

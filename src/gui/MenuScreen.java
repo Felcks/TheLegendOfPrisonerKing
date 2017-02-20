@@ -37,7 +37,7 @@ public class MenuScreen extends DefaultScreen
 		play.setFont(play.getFont().deriveFont(50.0F));
 		this.add(play);
 		
-		credit = new JButton("Creditos");
+		credit = new JButton("Créditos");
 		credit.setBounds(300, 550, 200, 50);
 		credit.setFont(credit.getFont().deriveFont(15.0F));
 		this.add(credit);

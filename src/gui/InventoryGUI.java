@@ -18,6 +18,7 @@ import javax.swing.SwingConstants;
 
 import itens.Item;
 import itens.ItemType;
+import itens.Map;
 import main.Book;
 
 public class InventoryGUI extends GameGUI
@@ -51,7 +52,7 @@ public class InventoryGUI extends GameGUI
 		//MAPA
 		this.mapButton = new JButton();
 		this.mapButton.setBounds(200, 50, 150, 150);
-		this.mapButton.setIcon(AllImages.getInstance().getMapImage(0));
+		//this.mapButton.setIcon(AllImages.getInstance().getMapImage(0));
 		this.defaultScreen.add(this.mapButton);
 		
 		this.mapText = new JTextField("Mapa");
@@ -71,6 +72,15 @@ public class InventoryGUI extends GameGUI
 		for(int i = 0; i < this.inventoryButtons.length; i++){
 			if(itens[i] != null){
 				this.inventoryButtons[i].setIcon(itens[i].getIcon());
+			}
+		}
+	}
+	
+	public void repaintMap(Item[] itens, int index){
+		for(int i = 0; i < this.inventoryButtons.length; i++){
+			if(itens[i] != null){
+				if(itens[i] instanceof Map)
+					this.mapButton.setIcon(AllImages.getInstance().getMapImage(index));
 			}
 		}
 	}
