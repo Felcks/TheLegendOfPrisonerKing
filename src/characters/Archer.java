@@ -7,6 +7,11 @@ public class Archer extends Player{
 		gerarStatus();
 	}
 	
+	public void levelUp(){
+		super.levelUp();
+		gerarStatus();
+	}
+	
 	@Override
 	protected void gerarStatus() {
 		this.maxHp = 12 + (this.level * 2);

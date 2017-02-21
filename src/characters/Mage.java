@@ -7,6 +7,11 @@ public class Mage extends Player{
 		gerarStatus();
 	}
 	
+	public void levelUp(){
+		super.levelUp();
+		gerarStatus();
+	}
+	
 	@Override
 	protected void gerarStatus() {
 		this.maxHp = 10 + (this.level * 1);

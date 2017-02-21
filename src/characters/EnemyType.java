@@ -2,7 +2,7 @@ package characters;
 
 public enum EnemyType {
 	
-	GOBLIN(0, "Goblin"), MIMIC(1, "Mimico");
+	GOBLIN(0, "Goblin"), MIMIC(1, "Mimico"), DRAGON(2, "Dragão"), KEFKA(3,"Kefka");
 	
 	private int index;
 	private String name;

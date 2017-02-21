@@ -7,6 +7,12 @@ public abstract class Character {
 	protected String name;
 	protected int level;
 	
+	public void cure(){
+		this.hp += 5;
+		if(this.hp >= this.maxHp)
+			this.hp = this.maxHp;
+	}
+	
 	public Character(int level, String name){
 		this.name = name;
 		this.level = level;
@@ -16,7 +22,7 @@ public abstract class Character {
 		return name;
 	}
 	
-	protected void levelUp(){
+	public void levelUp(){
 		this.level += 1;
 	}
 	
@@ -46,5 +52,6 @@ public abstract class Character {
     }
     
     protected abstract void gerarStatus();
+   
 
 }

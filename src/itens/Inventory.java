@@ -12,6 +12,23 @@ public class Inventory {
 		
 	}
 	
+	public Boolean hasPotions(){
+		for(int i = 0; i < this.itens.length; i++){
+			if(this.itens[i] instanceof Potion)
+				return true;
+		}
+		
+		return false;
+	}
+	
+	public void removePotion(){
+		for(int i = 0; i < this.itens.length; i++){
+			if(this.itens[i] instanceof Potion)
+				this.itens[i] = null;
+		}
+	}
+	
+	
 	public Item[] getItens(){
 		return this.itens;
 	}
@@ -22,6 +39,8 @@ public class Inventory {
 				return this.addItem(new Key());
 			case 9:
 				return this.addItem(new Map());
+			case 4:
+				return this.addItem(new Potion());
 		}
 		
 		return -1;

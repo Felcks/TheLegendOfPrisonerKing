@@ -4,16 +4,24 @@ import java.applet.Applet;
 import java.applet.AudioClip;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.net.URL;
+
 
 import characters.Player;
 import characters.PlayerCreation;
+import characters.Warrior;
 import gui.GUIManager;
 import itens.ItemType;
 import utilities.CreditButtonListener;
 import utilities.DialogButtonListener;
 import utilities.MenuButtonListener;
 import itens.Inventory;
+
+
+import java.io.File;
+import javax.sound.sampled.*;
+
 
 public class GameManager 
 {
@@ -63,6 +71,63 @@ public class GameManager
 		this.setDialogListeners();
 		this.startCharactersStatsGUI();		
 		
+		//Não me orgulho
+		Runnable runnable = new Runnable() {
+			int i = 0;
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				i++;
+				if(i >= 10000){
+					startSound();
+					return;
+				}
+				run();
+			}
+		};
+		Thread thread = new Thread(runnable);
+		thread.start();
+	}
+	
+	private void startSound(){
+		File file = new File("a.wav");
+	    if(file.exists()) {
+	        try {
+	            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
+
+	            AudioFormat audioFormat = audioInputStream.getFormat();
+
+	            DataLine.Info info = new DataLine.Info(SourceDataLine.class, audioFormat);
+
+	            SourceDataLine sourceLine = (SourceDataLine) AudioSystem.getLine(info);
+	            sourceLine.open(audioFormat);
+
+	            sourceLine.start();
+
+	            int nBytesRead = 0;
+	            byte[] abData = new byte[128000];
+	            while (nBytesRead != -1) {
+	                try {
+	                    nBytesRead = audioInputStream.read(abData, 0, abData.length);
+	                } catch (IOException e) {
+	                    e.printStackTrace();
+	                }
+	                if (nBytesRead >= 0) {
+	                    sourceLine.write(abData, 0, nBytesRead);
+	                }
+	            }
+
+	            sourceLine.drain();
+	            sourceLine.close();
+
+	        } catch (UnsupportedAudioFileException | IOException e) {
+	            e.printStackTrace();
+	        } catch (LineUnavailableException e) {
+	            e.printStackTrace();
+	        }
+	    } else {
+	        System.err.println("The selected file doesn't exist!");
+	    }
 	}
 	
 	public void setGameStatus(GameStatus gameStatus){
@@ -111,7 +176,8 @@ public class GameManager
 			currentPlayer = ((BattleEvent)this.getCurrentEvent()).getCurrentAttacker();
 		
 		this.guiManager.getGameScreen().getDialogGUI().repaintDialogForBattle(this.getCurrentEvent().choices, 
-														this.getCurrentEvent().getDescription(), currentPlayer);
+														this.getCurrentEvent().getDescription(), currentPlayer,
+														this.inventory.hasPotions());
 		
 		this.guiManager.getGameScreen().getCharacterStatsGUI().repaintCharactersImages(players, currentPlayer);
 	}
@@ -144,7 +210,14 @@ public class GameManager
 			this.book.setEventActually(nextEvent);
 		}
 		else if(this.getCurrentEvent() instanceof BattleEvent){
-			if(nextEvent >= 0){
+			if(nextEvent == -3){
+				for(int i = 0; i < this.players.length; i++){
+					this.players[i].cure();
+					this.inventory.removePotion();
+					this.repaintCharactersStats();
+				}
+			}
+			else if(nextEvent >= 0){
 				this.book.setEventActually(nextEvent);
 			}
 			else
@@ -165,11 +238,26 @@ public class GameManager
 						break;
 					}
 					((ItemEvent) this.getCurrentEvent()).choices.add(new BlankChoice("Prosseguir", 17));
+				
+					
 				}
 			}
 		}
+		else if(this.getCurrentEvent() instanceof LevelUpEvent){
+			if(index == 1){
+				for(int i = 0; i < this.players.length; i++){
+					this.players[i].levelUp();
+				}
+				this.repaintCharactersStats();
+			}
+			else{
+				this.book.setEventActually(nextEvent);
+			}
+		}
+			
 		
-		if(this.getCurrentEvent() instanceof BlankEvent || this.getCurrentEvent() instanceof ItemEvent){
+		if(this.getCurrentEvent() instanceof BlankEvent || this.getCurrentEvent() instanceof ItemEvent ||
+				this.getCurrentEvent() instanceof LevelUpEvent){
 			repaintDialog();
 			//Para ele repintar todos os players para o padrao
 			this.guiManager.getGameScreen().getCharacterStatsGUI().repaintCharactersImages(players, 99);

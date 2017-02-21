@@ -36,12 +36,15 @@ public class BattleEvent extends Event
 		for(int i = 0; i < players.length; i++){
 			Player player = players[i];
 			String[] skillNames = player.getSkillsNamesForButtons();
-			for(int j = 0; j < player.getSkillsNames().length; j++){
+			int j = 0;
+			for(j = 0; j < player.getSkillsNames().length; j++){
 				Choice choice = new BlankChoice(skillNames[j], j);
-				choice.defineNumber(i * player.getSkillsNames().length + j);
+				choice.defineNumber((i * (player.getSkillsNames().length+1)) + j);
 				this.choices.add(choice);
-				
 			}
+			Choice a = new BlankChoice("usar poção", 3);
+			a.defineNumber((i * (player.getSkillsNames().length+1)) + j);
+			this.choices.add(a);
 		}
 		
 		for(int i = 0; i < enemies.length; i++){
@@ -56,6 +59,18 @@ public class BattleEvent extends Event
 			this.choices.add(choice1);
 			this.choices.add(choice2);
 			this.choices.add(choice3);
+			
+			Choice choice11 = new BlankChoice("Continuar", 0);
+			Choice choice22 = new BlankChoice("Continuar", 0);
+			Choice choice33 = new BlankChoice("Continuar", 0);
+			choice11.defineNumber(this.choices.size());
+			choice22.defineNumber(this.choices.size());
+			choice33.defineNumber(this.choices.size());
+			
+			
+			this.choices.add(choice11);
+			this.choices.add(choice22);
+			this.choices.add(choice33);
 		}
 		
 		
@@ -136,6 +151,11 @@ public class BattleEvent extends Event
 	public int battle(int index){
 		//Se o atacante for um player:
 		if(this.currentAttacker < this.players.length){
+			if(index == 3){
+				return -3;
+			}
+			
+			
 			Player player = this.players[this.currentAttacker];
 			int enemyAttacked = player.attack(index, this.enemies);
 			

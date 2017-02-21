@@ -7,6 +7,11 @@ public class Thief extends Player {
 		gerarStatus();
 	}
 	
+	public void levelUp(){
+		super.levelUp();
+		gerarStatus();
+	}
+	
 	@Override
 	protected void gerarStatus() {
 		this.maxHp = 13 + (this.level * 3);

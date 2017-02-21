@@ -2,17 +2,15 @@ package main;
 
 import java.util.Collection;
 
-import itens.ItemType;
+public class LevelUpEvent extends Event {
 
-public class ItemEvent extends Event{
-
-	private static String ITEMOVER_DESCRIPTION = "N�o existem mais itens no local!";
+private static String ITEMOVER_DESCRIPTION = "Você fez um grande discurso. Todos ganharam status e estão reanimados!";
 	
-	public ItemEvent(String description, Collection<Choice> choices){
+	public LevelUpEvent(String description, Collection<Choice> choices){
 		 super(description, choices, GameStatus.DIALOG);
 	}
 	
-	public ItemEvent(String description, Collection<Choice> choices, int mapPos){
+	public LevelUpEvent(String description, Collection<Choice> choices, int mapPos){
 		 super(description, choices, GameStatus.DIALOG, mapPos);
 	}
 	
@@ -20,10 +18,10 @@ public class ItemEvent extends Event{
 	public int executeChoice(int number) {
 		for(Choice choice : choices){
 			if(choice.getNumber() == number){
-				if(choice instanceof ItemChoice){
-					int itemIndex = choice.getEventIndex();
+				if(number == 1){
 					choices.remove(choice);
-					return itemIndex;
+					this.setDescription(ITEMOVER_DESCRIPTION);
+					return -3;
 				}
 				else
 					return choice.getEventIndex();
@@ -47,5 +45,4 @@ public class ItemEvent extends Event{
 	public void SetNullDescription(){
 		this.setDescription(ITEMOVER_DESCRIPTION);
 	}
-	
 }

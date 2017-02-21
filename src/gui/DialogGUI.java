@@ -64,14 +64,27 @@ public class DialogGUI extends GameGUI
 		this.textArea.setText(description);
 	}
 	
-	public void repaintDialogForBattle(Collection<Choice> choices, String description, int currentPlayer){
+	public void repaintDialogForBattle(Collection<Choice> choices, String description, int currentPlayer, Boolean hasPotion){
 		int i = 0;
 		for(Choice choice : choices){
-			if(choice.getNumber() >= 3 * currentPlayer && choice.getNumber() < 3 * (currentPlayer+1)){
-				this.optionsButtons[i].setBackground(Color.gray.brighter());
-				this.optionsButtons[i].setVisible(true);
-				this.optionsButtons[i].setText(choice.getDescription());
-				i++;
+			if(hasPotion && currentPlayer < 4){
+				if(choice.getNumber() >= ((4) * currentPlayer) && choice.getNumber() < 4 * (currentPlayer+1)){
+					this.optionsButtons[i].setBackground(Color.gray.brighter());
+					this.optionsButtons[i].setVisible(true);
+					this.optionsButtons[i].setText(choice.getDescription());
+					i++;
+					
+					if(i == 4)
+						break;
+				}
+			}
+			else{
+				if(choice.getNumber() >= (4 * currentPlayer) && choice.getNumber() < (4 * (currentPlayer+1)) - 1){
+					this.optionsButtons[i].setBackground(Color.gray.brighter());
+					this.optionsButtons[i].setVisible(true);
+					this.optionsButtons[i].setText(choice.getDescription());
+					i++;
+				}
 			}
 		}
 		
