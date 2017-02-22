@@ -22,17 +22,17 @@ public class CreditScreen extends DefaultScreen {
 		this.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		
 		
-		JButton title = new JButton("Créditos");
+		JButton title = new JButton("CrÃ©ditos");
 		title.setBounds(100, 25, 600, 100);
 		title.setFont(title.getFont().deriveFont(35.0F));
 		this.add(title);
-		
-		JLabel joao = new JLabel("João Vitor de Almeida");
+	
+		JLabel joao = new JLabel("JoÃ£o Vitor de Almeida");
 		joao.setBounds(250, 350, 600, 100);
 		joao.setFont(joao.getFont().deriveFont(25.0F));
 		this.add(joao);
 		
-		JLabel luis = new JLabel("Luis Antônio Junior");
+		JLabel luis = new JLabel("Luis AntÃ´nio Junior");
 		luis.setBounds(250, 400, 600, 100);
 		luis.setFont(luis.getFont().deriveFont(25.0F));
 		this.add(luis);
@@ -46,7 +46,7 @@ public class CreditScreen extends DefaultScreen {
 		names.setBounds(220, 350, 370, 200);
 		this.add(names);
 		
-		JButton comp2 = new JButton("Atividade Acadêmica - Computação II - UFRRJ");
+		JButton comp2 = new JButton("Atividade AcadÃªmica - ComputaÃ§Ã£o II - UFRRJ");
 		comp2.setFont(comp2.getFont().deriveFont(20.0F));
 		comp2.setBounds(100, 170, 600, 50);
 		this.add(comp2);

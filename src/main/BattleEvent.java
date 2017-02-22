@@ -164,11 +164,17 @@ public class BattleEvent extends Event
 			}
 			
 			if(enemyAttacked >= 0){
-				this.addDescriptionNoSpace("usou " + player.getSkillsNames()[index] + " em " + enemies[enemyAttacked].getName());
+				this.setDescription("");
+				this.lengthOfDescription = 0;
+				this.addDescriptionNoSpace(player.getName() + " usou " + player.getSkillsNames()[index] + " em " + enemies[enemyAttacked].getName());
+				this.addDescription("Causou " + player.getAttack() + " de dano.");
 				this.addDescription(enemies[enemyAttacked].getName() + " Hp:" + enemies[enemyAttacked].getHp() + "  ");
 			}
 			else if(enemyAttacked == -1){
-				this.addDescriptionNoSpace("usou " + player.getSkillsNames()[index] + " em todos os inimigos");
+				this.setDescription("");
+				this.lengthOfDescription = 0;
+				this.addDescriptionNoSpace(player.getName() + "usou " + player.getSkillsNames()[index] + " em todos os inimigos");
+				this.addDescription("Causou " + player.getAttack() + "de dano.");
 				for(int i = 0; i < enemies.length; i++){
 					this.addDescription(enemies[i].getName() + " Hp:" + enemies[i].getHp() + "  ");
 				}
@@ -217,7 +223,10 @@ public class BattleEvent extends Event
 			}while(this.players[sortedPlayer].getHp() <= 0);
 			
 			enemy.attack(this.players[sortedPlayer]);
-			this.addDescriptionNoSpace("atacou " + this.players[sortedPlayer].getName());
+			this.setDescription("");
+			this.lengthOfDescription = 0;
+			this.addDescriptionNoSpace(enemy.getName() +  " atacou " + this.players[sortedPlayer].getName());
+			this.addDescription("Causou " + enemy.getAttack() + " de dano.");
 			
 		}
 		else{

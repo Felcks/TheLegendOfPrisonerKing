@@ -6,7 +6,7 @@ import itens.ItemType;
 
 public class ItemEvent extends Event{
 
-	private static String ITEMOVER_DESCRIPTION = "Não existem mais itens no local!";
+	private static String ITEMOVER_DESCRIPTION = "NÃ£o existem mais itens no local!";
 	
 	public ItemEvent(String description, Collection<Choice> choices){
 		 super(description, choices, GameStatus.DIALOG);

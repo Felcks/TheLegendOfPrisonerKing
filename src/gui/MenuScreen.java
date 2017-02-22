@@ -22,7 +22,7 @@ public class MenuScreen extends DefaultScreen
 		this.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		
 		
-		JLabel title = new JLabel("A Lenda do Rei aprisionado", SwingConstants.CENTER);
+		JButton title = new JButton("A Lenda do Rei Aprisionado");
 		title.setBounds(100, 25, 600, 100);
 		title.setFont(title.getFont().deriveFont(35.0F));
 		this.add(title);
@@ -37,7 +37,7 @@ public class MenuScreen extends DefaultScreen
 		play.setFont(play.getFont().deriveFont(50.0F));
 		this.add(play);
 		
-		credit = new JButton("Créditos");
+		credit = new JButton("CrÃ©ditos");
 		credit.setBounds(300, 550, 200, 50);
 		credit.setFont(credit.getFont().deriveFont(15.0F));
 		this.add(credit);

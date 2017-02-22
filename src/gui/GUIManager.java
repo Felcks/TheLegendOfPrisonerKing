@@ -17,6 +17,9 @@ public class GUIManager {
 	public GUIManager(){
 		this.createWindow();
 		this.createCards();
+	}
+	
+	public void start(){
 		this.createScreens();
 	}
 	

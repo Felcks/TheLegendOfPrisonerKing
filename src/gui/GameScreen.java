@@ -31,9 +31,6 @@ public class GameScreen extends DefaultScreen
 		this.battleGUI = new BattleGUI(this);
 		this.dialogGUI = new DialogGUI(this);
 		this.characterStatsGUI = new CharacterStatsGUI(this);
-		
-		
-		
 	}
 	
 	@Override

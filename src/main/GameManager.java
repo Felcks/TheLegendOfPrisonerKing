@@ -42,8 +42,8 @@ public class GameManager
 	private AudioClip music;
 	private int delay = 10000;
 	
-	public GameManager(){
-		this.guiManager = new GUIManager();
+	public void start(){
+		this.guiManager.start();
 		this.gameStatus = gameStatus.DIALOG;
 		
 		this.playersCreation = new PlayerCreation();
@@ -70,8 +70,13 @@ public class GameManager
 		
 		this.setDialogListeners();
 		this.startCharactersStatsGUI();		
+	}
+	
+	public GameManager(){
+		this.guiManager = new GUIManager();
+		this.start();
 		
-		//Não me orgulho
+		//Não nos orgulhamos
 		Runnable runnable = new Runnable() {
 			int i = 0;
 			@Override
@@ -254,10 +259,15 @@ public class GameManager
 				this.book.setEventActually(nextEvent);
 			}
 		}
+		else if(this.getCurrentEvent() instanceof RestartEvent){
+			this.guiManager.changeToScreen("menuScreen");
+			this.start();
+			return;
+		}
 			
 		
 		if(this.getCurrentEvent() instanceof BlankEvent || this.getCurrentEvent() instanceof ItemEvent ||
-				this.getCurrentEvent() instanceof LevelUpEvent){
+				this.getCurrentEvent() instanceof LevelUpEvent || this.getCurrentEvent() instanceof RestartEvent){
 			repaintDialog();
 			//Para ele repintar todos os players para o padrao
 			this.guiManager.getGameScreen().getCharacterStatsGUI().repaintCharactersImages(players, 99);
